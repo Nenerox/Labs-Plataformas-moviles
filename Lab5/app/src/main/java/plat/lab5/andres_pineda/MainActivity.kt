@@ -71,6 +71,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Programa(
                         modifier = Modifier.padding(innerPadding)
+                            .background(MaterialTheme.colorScheme.background)
                     )
                 }
             }
@@ -85,7 +86,7 @@ fun Programa(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Top){
         Row(modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.Red)
+            .background(color = MaterialTheme.colorScheme.secondary)
             .padding(top= 30.dp, start = 15.dp, end = 15.dp, bottom = 10.dp)
             ,verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -93,7 +94,7 @@ fun Programa(modifier: Modifier = Modifier) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(45.dp)
-                    .background(color = Color(0xFF2ba2fc), shape = CircleShape)
+                    .background(color = MaterialTheme.colorScheme.primary, shape = CircleShape)
                     .padding(10.dp)
 
             )
@@ -108,7 +109,8 @@ fun Programa(modifier: Modifier = Modifier) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.whatsapp"))
                     context.startActivity(intent)
                 }) {
-                Text("Descargar")
+                Text("Descargar",
+                    color = MaterialTheme.colorScheme.tertiary)
             }
         }
         Row(
@@ -135,7 +137,7 @@ fun Programa(modifier: Modifier = Modifier) {
                             .fillMaxHeight()
                             .wrapContentHeight(align = Alignment.CenterVertically)
                             , fontSize = 18.sp
-                            ,color = MaterialTheme.colorScheme.primary)
+                            ,color = MaterialTheme.colorScheme.tertiary)
             }
         }
         ElevatedCard(modifier = Modifier
@@ -166,14 +168,15 @@ fun Programa(modifier: Modifier = Modifier) {
                         Icon(
                             painter = painterResource(id = R.drawable.diamond_turn),
                             contentDescription = null,
+                            tint = MaterialTheme.colorScheme.tertiary
                         )
                     }
-
                 }
                 Text("Antigua Guatemala")
-                Text("8:00AM-9:00PM")
+                Text("12:00PM-10:00PM")
                 Row(horizontalArrangement = Arrangement.SpaceBetween) {
                     FilledTonalButton(
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(8.dp),
                         onClick = {
                             Toast.makeText(
@@ -184,9 +187,11 @@ fun Programa(modifier: Modifier = Modifier) {
                         },
                         modifier = Modifier.weight(1f),
                     ) {
-                        Text("Iniciar")
+                        Text("Iniciar",
+                            color = Color.White)
                     }
                     TextButton(
+                        colors = ButtonDefaults.textButtonColors(containerColor = Color.Transparent),
                         modifier = Modifier.weight(1f),
                         onClick = {
                             Toast.makeText(
@@ -197,7 +202,8 @@ fun Programa(modifier: Modifier = Modifier) {
                             ).show()
                         }
                     ) {
-                        Text("Detalles")
+                        Text("Detalles",
+                        color = MaterialTheme.colorScheme.tertiary)
                     }
                 }
             }
@@ -213,6 +219,7 @@ fun GreetingPreview() {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Programa(
                 modifier = Modifier.padding(innerPadding)
+                    .background(MaterialTheme.colorScheme.background)
             )
         }
     }

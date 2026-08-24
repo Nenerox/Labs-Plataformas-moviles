@@ -2,10 +2,12 @@ package plat.lab5.andres_pineda.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val LPrimario = Color(0xFF9a6de9)
+val LSecundario = Color(0xFFb76cea)
+val Lterciario = Color(0xFF7845D9)
+val LBackground = Color(0xFFfbfbfe)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val DPrimario = Color(0xFF441692)
+val DSecundario = Color(0xFF611593)
+val Dterciario = Color(0xFF5C50CB)
+val DBackground = Color(0xFF010104)
