@@ -34,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -71,7 +72,7 @@ fun Top(modifier: Modifier = Modifier,
 ){
     Column(modifier = modifier
         .fillMaxWidth()
-        .padding(top = 40.dp),
+        .padding(top = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Andres Pineda",
             fontSize = 50.sp,
@@ -164,6 +165,8 @@ fun Estadisticas(
     }
 }
 
+data class HistorialCuadro(val numero: Int, val isSuma: Boolean)
+
 @Composable
 fun Historial(
     modifier: Modifier = Modifier,
@@ -172,13 +175,14 @@ fun Historial(
 ){
     Box(modifier = modifier
         .clip(shape = RoundedCornerShape(10.dp))
-        .size(100.dp)
-        .background(color = if (isSuma){Color.Green } else {Color.Red}),
+        .size(70.dp)
+        .background(color = if (isSuma){Color(0xFF23792A) } else {Color(0xFFCB3131) }),
         contentAlignment = Alignment.Center
     ) {
         Text(text = numero.toString(),
             fontWeight = FontWeight.Bold,
-            fontSize = 50.sp)
+            fontSize = 30.sp,
+            color = Color.White)
     }
 }
 
@@ -190,6 +194,8 @@ fun Contador(modifier: Modifier = Modifier){
     var max by remember { mutableStateOf(0) }
     var min by remember { mutableStateOf(0) }
     var cambios by remember { mutableStateOf(0) }
+    var listahistorial = remember { mutableStateListOf<HistorialCuadro>() }
+
     Column(modifier = modifier) {
         Top(
             contador = contador,
@@ -197,12 +203,19 @@ fun Contador(modifier: Modifier = Modifier){
                 contador++
                 incrementos++
                 cambios++
-                if (max < contador) max = contador},
+                if (max < contador) {max = contador}
+                if (listahistorial.size >= 25) listahistorial.removeAt(0)
+                listahistorial.add(HistorialCuadro(contador, true))
+            },
+
             onMenos = {
                 contador--
                 decrementos++
                 cambios++
-                if (min > contador) min = contador},
+                if (min > contador) min = contador
+                if (listahistorial.size >= 25) listahistorial.removeAt(0)
+                listahistorial.add(HistorialCuadro(contador, false))
+            },
         )
 
         HorizontalDivider(
@@ -224,7 +237,19 @@ fun Contador(modifier: Modifier = Modifier){
             fontSize = 25.sp,
             fontWeight = FontWeight.Bold)
 
-        //TODO: lista con los cuadros de historial Lazyverticalgrid
+        LazyVerticalGrid(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(15.dp),
+            columns = GridCells.Fixed(5),
+            contentPadding = PaddingValues(4.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(listahistorial.size) { index ->
+                Historial(numero = listahistorial[index].numero, isSuma = listahistorial[index].isSuma)
+            }
+        }
 
         FilledTonalButton(
             onClick = {
@@ -234,6 +259,7 @@ fun Contador(modifier: Modifier = Modifier){
                 max = 0
                 min = 0
                 cambios = 0
+                listahistorial.clear()
             },
             modifier = modifier.fillMaxWidth()
                 .padding(15.dp)
